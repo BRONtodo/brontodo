@@ -2,7 +2,7 @@
 jQuery(function ($) {
 	'use strict';
 
-	var token1 = 'fc050f6e0873b449708c21ad4481cf2db9867fe5' //prompt("Enter your Authentication token here").toString();
+	var token1 = prompt("Enter your Authentication token here").toString();
 
 	$.ajax({
 		type: 'GET',
