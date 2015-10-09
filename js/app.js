@@ -2,6 +2,49 @@
 jQuery(function ($) {
 	'use strict';
 
+	var token1 = 'fc050f6e0873b449708c21ad4481cf2db9867fe5' //prompt("Enter your Authentication token here").toString();
+
+	$.ajax({
+		type: 'GET',
+		url: "https://api.github.com/notifications",
+		// headers: "{ Authorization: token }",
+		dataType: "json",
+		success: function(data, status) {
+			var gitData = data;
+			console.log(Array.isArray(data));
+			notifBucket(data);
+			localStorage.setItem('todos-jquery', JSON.stringify(notifBucket(data)));
+			// console.log(data[0]['subject']['title']);
+			alert('Success, your Notifications have been loaded!');
+			// console.log(localStorage.setItem('todos-jquery', JSON.stringify(data)));
+		},
+		beforeSend: function (xhr) {
+    	xhr.setRequestHeader ("Authorization", "token " + token1);
+		},
+		error: function(){
+			console.log('Triggered an ajax Error');
+		}
+	})
+
+	var Notif = function(id, title){
+		this.id = id;
+		this.title = title;
+		this.completed = false;
+	}
+
+	var notifBucket = function(data){
+		var notifBucket = [];
+		for(var i = 0; i < data.length; i++){
+			var title = data[i]["subject"]["title"];
+			var id = data[i]["id"];
+			var notif = new Notif(id, title);
+			notifBucket.push(notif);
+		};
+		// console.log(notifBucket)
+		return notifBucket;
+	}
+
+
 	Handlebars.registerHelper('eq', function (a, b, options) {
 		return a === b ? options.fn(this) : options.inverse(this);
 	});
