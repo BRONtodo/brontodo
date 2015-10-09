@@ -1,33 +1,35 @@
-# jQuery TodoMVC Example
+# TodoMVC GitHub Notifications
 
-> jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. With a combination of versatility and extensibility, jQuery has changed the way that millions of people write JavaScript.
+By Brian Ray & Ronald Kinch.
 
-> _[jQuery - jquery.com](http://jquery.com)_
+## Description
+The source provided a functioning todo list with all CRUD.
+It uses the Windows.localStorage to persist the todo list.
+
+Our implementation is to start the JavaScript with asking the user for
+ their token. We then use an ajax GET to pre-load the localStorage with
+ the users GitHub notifications (title and id).
+
+The next step use an ajax POST to send updates to GitHub where the
+ source saves to the localStorage.
+
+## Authors
+
+* Brian Ray (https://github.com/brayzen)
+* Ronald Kinch (https://github.com/ronaldkinch)
+
+## Sources
+https://github.com/tastejs/todomvc/tree/gh-pages/examples/jquery
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
 
-## Learning jQuery
+## License
 
-The [jQuery website](http://jquery.com) is a great resource for getting started.
-
-Here are some links you may find helpful:
-
-* [Learning Center](http://learn.jquery.com/)
-* [API Reference](http://api.jquery.com)
-* [Plugins](http://plugins.jquery.com)
-* [Browser Support](http://jquery.com/browser-support)
-* [Blog](http://blog.jquery.com)
-
-Articles and guides from the community:
-
-* [Try jQuery](http://try.jquery.com)
-* [jQuery Annotated Source](http://github.com/robflaherty/jquery-annotated-source)
-* [10 Things I Learned From the jQuery Source](http://paulirish.com/2010/10-things-i-learned-from-the-jquery-source)
-
-Get help from other jQuery users:
-
-* [jQuery on StackOverflow](http://stackoverflow.com/questions/tagged/jquery)
-* [Forums](http://forum.jquery.com)
-* [jQuery on Twitter](http://twitter.com/jquery)
-* [jQuery on Google +](https://plus.google.com/102828491884671003608/posts)
-
-_If you have other helpful links to share, or find any of the links above no longer work, please [let us know](https://github.com/tastejs/todomvc/issues)._
+Your Licensing Information goes here. Example: MIT/X11.
