@@ -6,7 +6,7 @@ jQuery(function ($) {
 
 	$.ajax({
 		type: 'GET',
-		url: "https://api.github.com/notifications",
+		url: "https://api.github.com/issues",
 		// headers: "{ Authorization: token }",
 		dataType: "json",
 		success: function(data, status) {
@@ -35,7 +35,7 @@ jQuery(function ($) {
 	var notifBucket = function(data){
 		var notifBucket = [];
 		for(var i = 0; i < data.length; i++){
-			var title = data[i]["subject"]["title"];
+			var title = data[i]["title"];
 			var id = data[i]["id"];
 			var notif = new Notif(id, title);
 			notifBucket.push(notif);
