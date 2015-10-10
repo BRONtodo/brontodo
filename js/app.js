@@ -6,12 +6,12 @@ jQuery(function ($) {
 
 	$.ajax({
 		type: 'GET',
-		url: "https://api.github.com/notifications",
+		url: "https://api.github.com/issues",
 		// headers: "{ Authorization: token }",
 		dataType: "json",
 		success: function(data, status) {
 			var gitData = data;
-			console.log(Array.isArray(data));
+			// console.log(Array.isArray(data));
 			notifBucket(data);
 			localStorage.setItem('todos-jquery', JSON.stringify(notifBucket(data)));
 			// console.log(data[0]['subject']['title']);
@@ -26,23 +26,60 @@ jQuery(function ($) {
 		}
 	})
 
-	var Notif = function(id, title){
-		this.id = id;
+	var Notif = function(githubId, title, url){
+		this.id = util.uuid();
 		this.title = title;
 		this.completed = false;
+		this.githubId = githubId;
+		this.url = url;
 	}
 
 	var notifBucket = function(data){
 		var notifBucket = [];
 		for(var i = 0; i < data.length; i++){
-			var title = data[i]["subject"]["title"];
+			var title = data[i]["title"];
 			var id = data[i]["id"];
-			var notif = new Notif(id, title);
+			var url = data[i]["url"];
+			var notif = new Notif(id, title, url);
 			notifBucket.push(notif);
 		};
 		// console.log(notifBucket)
 		return notifBucket;
 	}
+
+	var putGithub = function(object){
+		console.log(object);
+		var status = object.completed ? 'closed' : 'open';
+		var githubid = object.githubid;
+		console.log(object.url);
+		var stateVar = JSON.parse('{ "state":"' + status + '"}');
+		console.log(stateVar);
+		$.ajax({
+			type: 'PATCH',
+			url: object.url, //+ '?' + stateVar,
+			// headers: "{ Authorization: token }",
+			data: '{ "state":"' + status + '"}',
+			contentType: 'json',
+			// dataType: "json",
+			success: function(status) {
+
+				// console.log(data[0]['subject']['title']);
+				console.log('Success, ISSUE Marked completed');
+				// console.log(localStorage.setItem('todos-jquery', JSON.stringify(data)));
+			},
+			beforeSend: function (xhr) {
+	    	xhr.setRequestHeader ("Authorization", "token " + token1);
+			},
+			error: function(status){
+				if (status == '404') {
+					console.log('404 error, your bad');
+				}
+
+				console.log('Triggered an ajax Error');
+			}
+		})
+	}
+
 
 
 	Handlebars.registerHelper('eq', function (a, b, options) {
@@ -144,6 +181,7 @@ jQuery(function ($) {
 
 			this.todos.forEach(function (todo) {
 				todo.completed = isChecked;
+				putGithub();
 			});
 
 			this.render();
@@ -207,7 +245,10 @@ jQuery(function ($) {
 		},
 		toggle: function (e) {
 			var i = this.indexFromEl(e.target);
+			console.log(i);
+			console.log(this.todos);
 			this.todos[i].completed = !this.todos[i].completed;
+			putGithub(this.todos[i]);
 			this.render();
 		},
 		edit: function (e) {
